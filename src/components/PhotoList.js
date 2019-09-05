@@ -15,7 +15,7 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
   const [url, setUrl] = useState('');
 
   const handleCloseModal = () => setShow(false);
-  const handleShowModal = (url) => () => {
+  const handleShowModal = url => () => {
     setUrl(url);
     setShow(true);
   };
@@ -24,40 +24,50 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
     return (
       <ButtonToolbar>
         <Button
-          className='mr-3'
-          variant={favoritePhotos[row.id] ? 'outline-warning' : 'outline-success'}
-          onClick={() => 
-            dispatch(triggerFavorite(row.id))}
+          className="mr-3"
+          variant={
+            favoritePhotos[row.id] ? 'outline-warning' : 'outline-success'
+          }
+          onClick={() => dispatch(triggerFavorite(row.id))}
         >
-        { favoritePhotos[row.id] ? 'Unlike' : 'Like' }
+          {favoritePhotos[row.id] ? 'Unlike' : 'Like'}
         </Button>
 
-        <Button
-          variant="outline-primary"
-          onClick={handleShowModal(row.url)}
-        >
+        <Button variant="outline-primary" onClick={handleShowModal(row.url)}>
           Preview
         </Button>
       </ButtonToolbar>
-   );
+    );
   };
 
-  return <Fragment>
-    <h3 className='mb-3'>Number of favorite photos: {Object.keys(favoritePhotos).length}</h3>
-    <BootstrapTable
-      data={ photoList }
-      pagination>
-      <TableHeaderColumn dataField='id' isKey width='80'>ID</TableHeaderColumn>
-      <TableHeaderColumn dataField='title' tdStyle={ { whiteSpace: 'normal' } }>Name</TableHeaderColumn>
-      <TableHeaderColumn dataField='thumbnailUrl' dataFormat={thumbnailFormatter} width='150'>Image</TableHeaderColumn>
-      <TableHeaderColumn
-        dataField='button'
-        dataFormat={favoriteActionFormatter}
-      />
-    </BootstrapTable>
-    <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
-  </Fragment>
-}
+  return (
+    <Fragment>
+      <h3 className="mb-3">
+        Number of favorite photos: {Object.keys(favoritePhotos).length}
+      </h3>
+      <BootstrapTable data={photoList} pagination>
+        <TableHeaderColumn dataField="id" isKey width="80">
+          ID
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField="title" tdStyle={{ whiteSpace: 'normal' }}>
+          Name
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          dataField="thumbnailUrl"
+          dataFormat={thumbnailFormatter}
+          width="150"
+        >
+          Image
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          dataField="button"
+          dataFormat={favoriteActionFormatter}
+        />
+      </BootstrapTable>
+      <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
+    </Fragment>
+  );
+};
 
 PhotoList.propTypes = {
   photoList: PropTypes.arrayOf(
@@ -66,7 +76,7 @@ PhotoList.propTypes = {
       albumId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-      thumbnailUrl: PropTypes.string.isRequired,
+      thumbnailUrl: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
   favoritePhotos: PropTypes.object.isRequired

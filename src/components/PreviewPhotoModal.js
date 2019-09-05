@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Modal, Button, Image } from 'react-bootstrap';
 
 class PreviewPhotoModal extends Component {
@@ -6,12 +6,12 @@ class PreviewPhotoModal extends Component {
     const { show, url, handleClose } = this.props;
 
     return (
-			<Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Image src={url} width='100%' rounded />
+          <Image src={url} width="100%" rounded />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -24,4 +24,3 @@ class PreviewPhotoModal extends Component {
 }
 
 export default PreviewPhotoModal;
-

@@ -11,7 +11,7 @@ class App extends Component {
       <Container>
         <Row className="row">
           <Col xs={12}>
-            <h1>Photo List</h1>
+            <h1>List</h1>
             <PhotoListContainer />
           </Col>
         </Row>

@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import PhotoThumbnail from './PhotoThumbnail';
+
+function thumbnailFormatter(cell) {
+  return <PhotoThumbnail thumbnailUrl={cell} />;
+}
 
 const PhotoList = ({ photoList }) => (
   <BootstrapTable
     data={ photoList }
     pagination>
-    <TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
-    <TableHeaderColumn dataField='title'>Product Name</TableHeaderColumn>
-    <TableHeaderColumn dataField='thumbnailUrl'>Product Price</TableHeaderColumn>
+    <TableHeaderColumn dataField='id' isKey width='80'>ID</TableHeaderColumn>
+    <TableHeaderColumn dataField='title' tdStyle={ { whiteSpace: 'normal' } }>Name</TableHeaderColumn>
+    <TableHeaderColumn dataField='thumbnailUrl' dataFormat={thumbnailFormatter} width='120'>Image</TableHeaderColumn>
   </BootstrapTable>
 );
 

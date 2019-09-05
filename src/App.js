@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <Row className="row">
+        <Row className="row my-5">
           <Col xs={12}>
             <PhotoListContainer />
           </Col>

@@ -6,7 +6,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - create-react-app
 - jest
 
-
 ## App:
 
 - react

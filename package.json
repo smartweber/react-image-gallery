@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.5.5",
     "bootstrap": "^4.3.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
@@ -51,10 +52,17 @@
   "prettier": {
     "singleQuote": true
   },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "babel-jest": "^24.9.0",
     "husky": "^3.0.5",
-    "jest": "^24.9.0",
+    "jest-fetch-mock": "^2.1.2",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2"
   }

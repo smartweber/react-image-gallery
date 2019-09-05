@@ -1,11 +1,35 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { all, put, takeEvery } from 'redux-saga/effects';
 import { LOAD_PHOTO_LIST, RENDER_PHOTO_LIST } from '../actions';
 
 export function* fetchPhotoList() {
-  const endpoint = 'https://jsonplaceholder.typicode.com/photos';
-  const response = yield call(fetch, endpoint);
-  const data = yield response.json();
-  yield put({ type: RENDER_PHOTO_LIST, photoList: data });
+  const API_URL = 'https://jsonplaceholder.typicode.com/photos';
+  try {
+    const response = yield fetch(API_URL)
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          return process.on('unhandledRejection', (_, promise) => {
+            console.log('ERROR', data.error);
+            promise.reject([]);
+          });
+        }
+
+        return Promise.resolve(data);
+      })
+      .catch(error =>
+        process.on('unhandledRejection', (_, promise) => {
+          console.log(
+            'ERROR',
+            typeof error === 'string' ? Error(error) : Error(error.message)
+          );
+          promise.reject([]);
+        })
+      );
+
+    yield put({ type: RENDER_PHOTO_LIST, photoList: response });
+  } catch (e) {
+    console.log('ERROR', e);
+  }
 }
 
 export function* loadPhotoList() {

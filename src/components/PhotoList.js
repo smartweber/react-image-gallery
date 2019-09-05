@@ -15,11 +15,12 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
   const [url, setUrl] = useState('');
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (url) => () => {
+    setUrl(url);
+    setShow(true);
+  };
 
   const favoriteActionFormatter = (_, row) => {
-    setUrl(row.url);
-
     return (
       <ButtonToolbar>
         <Button
@@ -33,7 +34,7 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
 
         <Button
           variant="outline-primary"
-          onClick={handleShow}
+          onClick={handleShow(row.url)}
         >
           Preview
         </Button>

@@ -29,6 +29,7 @@ export function* fetchPhotoList() {
     yield put({ type: RENDER_PHOTO_LIST, photoList: response });
   } catch (e) {
     console.log('ERROR', e);
+    yield put({ type: RENDER_PHOTO_LIST, photoList: [] });
   }
 }
 

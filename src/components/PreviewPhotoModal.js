@@ -4,6 +4,7 @@ import { Modal, Button, Image } from 'react-bootstrap';
 class PreviewPhotoModal extends Component {
   render() {
     const { show, url, handleClose } = this.props;
+
     return (
 			<Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

@@ -2,9 +2,9 @@ import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import { triggerFavorite } from '../actions';
 import PhotoThumbnail from './PhotoThumbnail';
 import PreviewPhotoModal from './PreviewPhotoModal';
-import { triggerFavorite } from '../actions';
 
 function thumbnailFormatter(cell) {
   return <PhotoThumbnail thumbnailUrl={cell} />;
@@ -14,8 +14,8 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState('');
 
-  const handleClose = () => setShow(false);
-  const handleShow = (url) => () => {
+  const handleCloseModal = () => setShow(false);
+  const handleShowModal = (url) => () => {
     setUrl(url);
     setShow(true);
   };
@@ -34,7 +34,7 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
 
         <Button
           variant="outline-primary"
-          onClick={handleShow(row.url)}
+          onClick={handleShowModal(row.url)}
         >
           Preview
         </Button>
@@ -55,7 +55,7 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
         dataFormat={favoriteActionFormatter}
       />
     </BootstrapTable>
-    <PreviewPhotoModal show={show} url={url} handleClose={handleClose} />
+    <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
   </Fragment>
 }
 

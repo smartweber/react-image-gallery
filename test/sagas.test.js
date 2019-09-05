@@ -1,12 +1,12 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { fetchPhotoList, loadPhotoList } from '../src/sagas/index';
-import { RENDER_PHOTO_LIST, LOAD_PHOTO_LIST } from '../src/actions';
+import { RENDER_PHOTO_LIST, LOAD_PHOTOS_LOADING } from '../src/actions';
 
 describe('SAGAS', () => {
-  it('should dispatch action "LOAD_PHOTO_LIST" ', () => {
+  it('should dispatch action "LOAD_PHOTOS_LOADING" ', () => {
     const generator = loadPhotoList();
     expect(generator.next().value)
-      .toEqual(takeEvery(LOAD_PHOTO_LIST, fetchPhotoList));
+      .toEqual(takeEvery(LOAD_PHOTOS_LOADING, fetchPhotoList));
     expect(generator.next().done).toBeTruthy();
   });
 

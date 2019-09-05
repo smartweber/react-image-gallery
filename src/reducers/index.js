@@ -1,17 +1,29 @@
 import _ from 'lodash';
-import { RENDER_PHOTO_LIST, TRIGGER_FAVORITE } from '../actions';
+import {
+  LOAD_PHOTOS_LOADING,
+  RENDER_PHOTO_LIST,
+  TRIGGER_FAVORITE
+} from '../actions';
 
 const initialState = {
+  loading: false,
   photoList: [],
   favoritePhotos: {}
 };
 
 export default function photoApp(state = initialState, action) {
   switch (action.type) {
+    case LOAD_PHOTOS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case RENDER_PHOTO_LIST:
       return {
         ...state,
-        photoList: action.photoList
+        loading: false,
+        photoList: action.photoList,
+        isLoadPhotos: action.isLoadPhotos
       };
     case TRIGGER_FAVORITE:
       let newFavoritePhotos = _.clone(state.favoritePhotos);

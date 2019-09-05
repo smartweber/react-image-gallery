@@ -11,7 +11,7 @@ describe('ACTIONS', () => {
 
   it('should create loadPhotoList action by loadPhotoList', () => {
     const expectedAction = {
-      type: actions.LOAD_PHOTO_LIST
+      type: actions.LOAD_PHOTOS_LOADING
     }
     expect(actions.loadPhotoList()).toEqual(expectedAction);
   });

@@ -3,6 +3,7 @@ import PhotoList from '../components/PhotoList';
 
 const mapStateToProps = state => {
   return {
+    loading: state.loading,
     photoList: state.photoList,
     favoritePhotos: state.favoritePhotos
   };

@@ -1,5 +1,5 @@
 import { all, put, takeEvery } from 'redux-saga/effects';
-import { LOAD_PHOTO_LIST, RENDER_PHOTO_LIST } from '../actions';
+import { LOAD_PHOTOS_LOADING, RENDER_PHOTO_LIST } from '../actions';
 
 export function* fetchPhotoList() {
   const API_URL = 'https://jsonplaceholder.typicode.com/photos';
@@ -34,7 +34,7 @@ export function* fetchPhotoList() {
 }
 
 export function* loadPhotoList() {
-  yield takeEvery(LOAD_PHOTO_LIST, fetchPhotoList);
+  yield takeEvery(LOAD_PHOTOS_LOADING, fetchPhotoList);
 }
 
 export default function* rootSaga() {

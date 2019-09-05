@@ -1,16 +1,17 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar, Spinner } from 'react-bootstrap';
 import { triggerFavorite } from '../actions';
 import PhotoThumbnail from './PhotoThumbnail';
 import PreviewPhotoModal from './PreviewPhotoModal';
+import { SpinnerWrapper } from './styles';
 
 function thumbnailFormatter(cell) {
   return <PhotoThumbnail thumbnailUrl={cell} />;
 }
 
-const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
+const PhotoList = ({ loading, photoList, favoritePhotos, dispatch }) => {
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState('');
 
@@ -66,6 +67,14 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
     sizePerPage: 5
   };
 
+  if (loading) {
+    return (
+      <SpinnerWrapper>
+        <Spinner animation="border" variant="primary" size="xl" />
+      </SpinnerWrapper>
+    );
+  }
+
   return (
     <Fragment>
       <h3 className="mb-3">
@@ -96,6 +105,7 @@ const PhotoList = ({ photoList, favoritePhotos, dispatch }) => {
 };
 
 PhotoList.propTypes = {
+  loading: PropTypes.bool.isRequired,
   photoList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

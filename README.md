@@ -1,5 +1,20 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project:
+
+- npm
+- create-react-app
+- jest
+
+
+## App:
+
+- react
+- redux-saga
+- react-bootstrap
+- react-bootstrap-table
+- styled-component
+
 ## Available Scripts
 
 In the project directory, you can run:

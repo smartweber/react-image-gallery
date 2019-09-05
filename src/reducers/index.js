@@ -1,7 +1,9 @@
-import { RENDER_PHOTO_LIST } from '../actions';
+import _ from 'lodash';
+import { RENDER_PHOTO_LIST, TRIGGER_FAVORITE } from '../actions';
 
 const initialState = {
-  photoList: []
+  photoList: [],
+  favoritePhotos: {}
 };
 
 export default function photoApp(state = initialState, action) {
@@ -10,6 +12,18 @@ export default function photoApp(state = initialState, action) {
       return {
         ...state,
         photoList: action.photoList
+      };
+    case TRIGGER_FAVORITE:
+      let newFavoritePhotos = _.clone(state.favoritePhotos);
+      if (newFavoritePhotos[action.triggerPhotoId]) {
+        delete newFavoritePhotos[action.triggerPhotoId];
+      } else {
+        newFavoritePhotos[action.triggerPhotoId] = true;
+      }
+
+      return {
+        ...state,
+        favoritePhotos: newFavoritePhotos
       };
     default:
       return state;

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import PhotoList from '../components/PhotoList';
+import PhotoItems from '../components/PhotoItems';
 
 const mapStateToProps = state => {
   return {
@@ -12,6 +12,6 @@ const mapStateToProps = state => {
   };
 };
 
-const PhotoListContainer = connect(mapStateToProps)(PhotoList);
+const PhotoListContainer = connect(mapStateToProps)(PhotoItems);
 
 export default PhotoListContainer;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 const PhotoPagination = ({ initialPage, pageSize, items, onChangePage }) => {
   const [pager, setPager] = useState({});
@@ -86,42 +86,46 @@ const PhotoPagination = ({ initialPage, pageSize, items, onChangePage }) => {
 
   return (
     <Pagination>
-      <Pagination.First
-        disabled={pager.currentPage === 1}
-        onClick={() => setPage(1)}
-      />
-      <Pagination.Prev
-        disabled={pager.currentPage === 1}
-        onClick={() => setPage(pager.currentPage - 1)}
-      />
-      <Pagination.Ellipsis />
+      <PaginationItem disabled={pager.currentPage === 1 ? true : false}>
+        <PaginationLink first onClick={() => setPage(1)} />
+      </PaginationItem>
+
+      <PaginationItem disabled={pager.currentPage === 1 ? true : false}>
+        <PaginationLink
+          previous
+          onClick={() => setPage(pager.currentPage - 1)}
+        />
+      </PaginationItem>
+
       {pager.pages.map((page, index) => (
-        <Pagination.Item
+        <PaginationItem
           key={index}
-          active={pager.currentPage === page}
-          onClick={() => setPage(page)}
+          active={pager.currentPage === page ? true : false}
         >
-          {page}
-        </Pagination.Item>
+          <PaginationLink onClick={() => setPage(page)}>{page}</PaginationLink>
+        </PaginationItem>
       ))}
-      <Pagination.Ellipsis />
-      <Pagination.Next
-        disabled={pager.currentPage === pager.totalPages}
-        onClick={() => setPage(pager.currentPage + 1)}
-      />
-      <Pagination.Last
-        disabled={pager.currentPage === pager.totalPages}
-        onClick={() => setPage(pager.totalPages)}
-      />
+
+      <PaginationItem
+        disabled={pager.currentPage === pager.totalPages ? true : false}
+      >
+        <PaginationLink next onClick={() => setPage(pager.currentPage + 1)} />
+      </PaginationItem>
+
+      <PaginationItem
+        disabled={pager.currentPage === pager.totalPages ? true : false}
+      >
+        <PaginationLink last onClick={() => setPage(pager.totalPages)} />
+      </PaginationItem>
     </Pagination>
   );
 };
 
 const propTypes = {
   items: PropTypes.array.isRequired,
+  pageSize: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
-  initialPage: PropTypes.number,
-  pageSize: PropTypes.number.isRequired
+  initialPage: PropTypes.number
 };
 
 const defaultProps = {

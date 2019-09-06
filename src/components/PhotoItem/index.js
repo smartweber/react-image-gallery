@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button } from 'reactstrap';
 import {
   Image,
   PhotoItemWrapper,
@@ -36,14 +36,16 @@ const PhotoItem = ({ data, likeStatus, onChangeLikeStatus, onPreview }) => {
           <ActionWrapper>
             <Button
               className="mr-3"
-              variant="outline-primary"
+              outline
+              color="primary"
               onClick={() => onPreview(data.url)}
             >
               Preview
             </Button>
 
             <Button
-              variant={likeStatus ? 'outline-warning' : 'outline-success'}
+              outline
+              color={likeStatus ? 'warning' : 'success'}
               onClick={() => onChangeLikeStatus(data.id)}
             >
               {likeButtonContent}

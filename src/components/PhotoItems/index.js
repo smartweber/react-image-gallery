@@ -1,13 +1,13 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner, Alert, Container, Row, Col } from 'react-bootstrap';
+import { Spinner, Alert, Container, Row, Col } from 'reactstrap';
 import { triggerFavorite, loadPagePhotos } from '../../actions';
 import PreviewPhotoModal from '../PreviewPhotoModal';
 import PhotoPagination from '../PhotoPagination';
 import PhotoItem from '../PhotoItem';
 import { SpinnerWrapper } from './styles';
 
-const PhotoList = ({
+const PhotoItems = ({
   loading,
   isError,
   totalCount,
@@ -99,7 +99,7 @@ const PhotoList = ({
   );
 };
 
-PhotoList.propTypes = {
+PhotoItems.propTypes = {
   loading: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
@@ -116,4 +116,4 @@ PhotoList.propTypes = {
   favoritePhotos: PropTypes.object.isRequired
 };
 
-export default PhotoList;
+export default PhotoItems;

@@ -2,19 +2,12 @@ import {
   put,
   takeLatest
 } from 'redux-saga/effects';
-import MockAdapter from 'axios-mock-adapter';
-import { default as axios } from 'axios';
 import { fetchPagePhoto, loadPagePhotos } from '../src/sagas/index';
 import {
   LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PAGE_PHOTOS } from '../src/actions';
 
 describe('SAGAS', () => {
-  const mock = new MockAdapter(axios);
-
-  afterEach(() => {
-    mock.reset();
-  });
   it('should dispatch action "LOAD_PAGE_PHOTOS" ', () => {
     const generator = loadPagePhotos();
     expect(generator.next().value)
@@ -29,7 +22,6 @@ describe('SAGAS', () => {
         title: 'photo1'
       }
     ];
-    mock.onGet().reply(200, {response: mockResponse});
     const generator = fetchPagePhoto({page: 1, limit: 10});
     generator.next();
 

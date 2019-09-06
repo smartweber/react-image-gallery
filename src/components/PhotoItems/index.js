@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Spinner, Alert, Container, Row, Col } from 'reactstrap';
 import { triggerFavorite, loadPagePhotos } from '../../actions';
 import PreviewPhotoModal from '../PreviewPhotoModal';
@@ -70,7 +71,7 @@ const PhotoItems = ({
             </SpinnerWrapper>
           ) : (
             photoList.map(item => (
-              <Col sm={3} key={item.id}>
+              <Col sm={3} key={item.id} className="p-0">
                 <PhotoItem
                   data={item}
                   likeStatus={
@@ -104,6 +105,7 @@ PhotoItems.propTypes = {
   isError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   totalCount: PropTypes.number.isRequired,
+  favoritePhotos: PropTypes.object.isRequired,
   photoList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -112,8 +114,18 @@ PhotoItems.propTypes = {
       url: PropTypes.string.isRequired,
       thumbnailUrl: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired,
-  favoritePhotos: PropTypes.object.isRequired
+  ).isRequired
 };
 
-export default PhotoItems;
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    isError: state.isError,
+    errorMessage: state.errorMessage,
+    totalCount: state.totalCount,
+    favoritePhotos: state.favoritePhotos,
+    photoList: state.photoList
+  };
+};
+
+export default connect(mapStateToProps)(PhotoItems);

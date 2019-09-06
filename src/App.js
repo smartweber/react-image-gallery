@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'reactstrap';
 
-import PhotoListContainer from './containers/PhotoListContainer';
+import PhotoList from './components/PhotoItems';
 
 class App extends Component {
   render() {
@@ -9,7 +9,7 @@ class App extends Component {
       <Container>
         <Row className="row my-5">
           <Col xs={12}>
-            <PhotoListContainer />
+            <PhotoList />
           </Col>
         </Row>
       </Container>

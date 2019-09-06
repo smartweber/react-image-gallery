@@ -1,29 +1,50 @@
 import _ from 'lodash';
 import {
-  LOAD_PHOTOS_LOADING,
-  RENDER_PHOTO_LIST,
+  LOAD_ALL_PHOTOS,
+  LOAD_ALL_PHOTOS_SUCCESS,
+  LOAD_PAGE_PHOTOS_SUCCESS,
+  LOAD_PHOTOS_FAIL,
   TRIGGER_FAVORITE
 } from '../actions';
 
 const initialState = {
   loading: false,
+  isError: false,
+  totalPhotos: 0,
   photoList: [],
-  favoritePhotos: {}
+  favoritePhotos: {},
+  errorMessage: ''
 };
 
 export default function photoApp(state = initialState, action) {
   switch (action.type) {
-    case LOAD_PHOTOS_LOADING:
+    case LOAD_ALL_PHOTOS:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isError: false
       };
-    case RENDER_PHOTO_LIST:
+    case LOAD_ALL_PHOTOS_SUCCESS:
       return {
         ...state,
         loading: false,
-        photoList: action.photoList,
-        isLoadPhotos: action.isLoadPhotos
+        isError: false,
+        totalPhotos: action.totalPhotos
+      };
+    case LOAD_PAGE_PHOTOS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isError: false,
+        photoList: action.photoList
+      };
+    case LOAD_PHOTOS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        isError: true,
+        photoList: [],
+        errorMessage: action.errorMessage
       };
     case TRIGGER_FAVORITE:
       let newFavoritePhotos = _.clone(state.favoritePhotos);

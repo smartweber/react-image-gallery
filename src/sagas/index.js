@@ -1,42 +1,59 @@
-import { all, put, takeEvery } from 'redux-saga/effects';
-import { LOAD_PHOTOS_LOADING, RENDER_PHOTO_LIST } from '../actions';
+import { all, put, call, takeEvery } from 'redux-saga/effects';
+import {
+  LOAD_ALL_PHOTOS,
+  LOAD_PAGE_PHOTOS,
+  LOAD_ALL_PHOTOS_SUCCESS,
+  LOAD_PAGE_PHOTOS_SUCCESS,
+  LOAD_PHOTOS_FAIL
+} from '../actions';
 
-export function* fetchPhotoList() {
+export function* fetchAllPhoto() {
   const API_URL = 'https://jsonplaceholder.typicode.com/photos';
+
   try {
-    const response = yield fetch(API_URL)
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          return process.on('unhandledRejection', (_, promise) => {
-            console.log('ERROR', data.error);
-            promise.reject([]);
-          });
-        }
+    const response = yield call(fetch, API_URL);
+    if (response.status >= 200 && response.status < 300) {
+      const photoList = yield response.json();
 
-        return Promise.resolve(data);
-      })
-      .catch(error =>
-        process.on('unhandledRejection', (_, promise) => {
-          console.log(
-            'ERROR',
-            typeof error === 'string' ? Error(error) : Error(error.message)
-          );
-          promise.reject([]);
-        })
-      );
-
-    yield put({ type: RENDER_PHOTO_LIST, photoList: response });
+      yield put({
+        type: LOAD_ALL_PHOTOS_SUCCESS,
+        totalPhotos: photoList.length
+      });
+    } else {
+      throw response;
+    }
   } catch (e) {
     console.log('ERROR', e);
-    yield put({ type: RENDER_PHOTO_LIST, photoList: [] });
+    yield put({ type: LOAD_PHOTOS_FAIL, errorMessage: 'Api error' });
   }
 }
 
-export function* loadPhotoList() {
-  yield takeEvery(LOAD_PHOTOS_LOADING, fetchPhotoList);
+export function* fetchPagePhoto(action) {
+  const API_URL = `https://jsonplaceholder.typicode.com/photos?_page=${action.page}&_limit=${action.limit}`;
+
+  try {
+    const response = yield call(fetch, API_URL);
+    if (response.status >= 200 && response.status < 300) {
+      const photoList = yield response.json();
+
+      yield put({ type: LOAD_PAGE_PHOTOS_SUCCESS, photoList });
+    } else {
+      throw response;
+    }
+  } catch (e) {
+    console.log('ERROR', e);
+    yield put({ type: LOAD_PHOTOS_FAIL, errorMessage: 'Api error' });
+  }
+}
+
+export function* loadAllPhotos() {
+  yield takeEvery(LOAD_ALL_PHOTOS, fetchAllPhoto);
+}
+
+export function* loadPagePhotos() {
+  yield takeEvery(LOAD_PAGE_PHOTOS, fetchPagePhoto);
 }
 
 export default function* rootSaga() {
-  yield all([loadPhotoList()]);
+  yield all([loadAllPhotos(), loadPagePhotos()]);
 }

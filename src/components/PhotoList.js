@@ -1,24 +1,61 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Button, ButtonToolbar, Spinner } from 'react-bootstrap';
-import { triggerFavorite } from '../actions';
+import {
+  Button,
+  ButtonToolbar,
+  Spinner,
+  Alert,
+  Container,
+  Row,
+  Col
+} from 'react-bootstrap';
+import { triggerFavorite, loadPagePhotos } from '../actions';
 import PhotoThumbnail from './PhotoThumbnail';
 import PreviewPhotoModal from './PreviewPhotoModal';
 import { SpinnerWrapper } from './styles';
+import PhotoPagination from './PhotoPagination';
+import PhotoItem from './PhotoItem';
 
 function thumbnailFormatter(cell) {
   return <PhotoThumbnail thumbnailUrl={cell} />;
 }
 
-const PhotoList = ({ loading, photoList, favoritePhotos, dispatch }) => {
+const PhotoList = ({
+  loading,
+  isError,
+  totalPhotos,
+  errorMessage,
+  photoList,
+  favoritePhotos,
+  dispatch
+}) => {
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState('');
+  const [items, setItems] = useState([]);
+  const pageSize = 16;
+
+  useEffect(() => {
+    dispatch(loadPagePhotos(1, pageSize));
+  }, []);
+
+  useEffect(() => {
+    buildPageItems();
+  }, [totalPhotos]);
 
   const handleCloseModal = () => setShow(false);
+
   const handleShowModal = url => () => {
     setUrl(url);
     setShow(true);
+  };
+
+  const onChangePage = pager => {
+    dispatch(loadPagePhotos(pager.currentPage, pager.pageSize));
+  };
+
+  const buildPageItems = () => {
+    const pageItems = [...Array(totalPhotos).keys()].map(i => i + 1);
+    setItems(pageItems);
   };
 
   const favoriteActionFormatter = (_, row) => {
@@ -41,32 +78,6 @@ const PhotoList = ({ loading, photoList, favoritePhotos, dispatch }) => {
     );
   };
 
-  const options = {
-    sizePerPageList: [
-      {
-        text: '5',
-        value: 5
-      },
-      {
-        text: '10',
-        value: 10
-      },
-      {
-        text: '20',
-        value: 20
-      },
-      {
-        text: '50',
-        value: 50
-      },
-      {
-        text: 'All',
-        value: photoList.length
-      }
-    ],
-    sizePerPage: 5
-  };
-
   if (loading) {
     return (
       <SpinnerWrapper>
@@ -75,37 +86,50 @@ const PhotoList = ({ loading, photoList, favoritePhotos, dispatch }) => {
     );
   }
 
+  if (isError) {
+    return <Alert variant="danger">{errorMessage}</Alert>;
+  }
+
   return (
     <Fragment>
-      <h3 className="mb-3">
-        Number of favorite photos: {Object.keys(favoritePhotos).length}
-      </h3>
-      <BootstrapTable data={photoList} pagination options={options}>
-        <TableHeaderColumn dataField="id" isKey width="80">
-          ID
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField="title" tdStyle={{ whiteSpace: 'normal' }}>
-          Name
-        </TableHeaderColumn>
-        <TableHeaderColumn
-          dataField="thumbnailUrl"
-          dataFormat={thumbnailFormatter}
-          width="150"
-        >
-          Image
-        </TableHeaderColumn>
-        <TableHeaderColumn
-          dataField="button"
-          dataFormat={favoriteActionFormatter}
-        />
-      </BootstrapTable>
       <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
+      <Container>
+        <Row>
+          <Col>
+            <h3>
+              Number of favorite photos: {Object.keys(favoritePhotos).length}
+            </h3>
+          </Col>
+        </Row>
+
+        <Row className="my-3">
+          {photoList.map(item => (
+            <Col sm={3} key={item.id}>
+              <PhotoItem data={item} />
+            </Col>
+          ))}
+        </Row>
+
+        <Row>
+          <Col sm={3}></Col>
+          <Col sm={9}>
+            <PhotoPagination
+              items={items}
+              pageSize={pageSize}
+              onChangePage={onChangePage}
+            />
+          </Col>
+        </Row>
+      </Container>
     </Fragment>
   );
 };
 
 PhotoList.propTypes = {
   loading: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
+  totalPhotos: PropTypes.number.isRequired,
   photoList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

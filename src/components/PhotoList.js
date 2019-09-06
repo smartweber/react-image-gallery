@@ -1,24 +1,11 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  ButtonToolbar,
-  Spinner,
-  Alert,
-  Container,
-  Row,
-  Col
-} from 'react-bootstrap';
+import { Spinner, Alert, Container, Row, Col } from 'react-bootstrap';
 import { triggerFavorite, loadPagePhotos } from '../actions';
-import PhotoThumbnail from './PhotoThumbnail';
 import PreviewPhotoModal from './PreviewPhotoModal';
 import { SpinnerWrapper } from './styles';
 import PhotoPagination from './PhotoPagination';
 import PhotoItem from './PhotoItem';
-
-function thumbnailFormatter(cell) {
-  return <PhotoThumbnail thumbnailUrl={cell} />;
-}
 
 const PhotoList = ({
   loading,
@@ -44,11 +31,6 @@ const PhotoList = ({
 
   const handleCloseModal = () => setShow(false);
 
-  const handleShowModal = url => () => {
-    setUrl(url);
-    setShow(true);
-  };
-
   const onChangePage = pager => {
     dispatch(loadPagePhotos(pager.currentPage, pager.pageSize));
   };
@@ -58,24 +40,13 @@ const PhotoList = ({
     setItems(pageItems);
   };
 
-  const favoriteActionFormatter = (_, row) => {
-    return (
-      <ButtonToolbar>
-        <Button
-          className="mr-3"
-          variant={
-            favoritePhotos[row.id] ? 'outline-warning' : 'outline-success'
-          }
-          onClick={() => dispatch(triggerFavorite(row.id))}
-        >
-          {favoritePhotos[row.id] ? 'Unlike' : 'Like'}
-        </Button>
+  const onChangeLikeStatus = photoId => {
+    dispatch(triggerFavorite(photoId));
+  };
 
-        <Button variant="outline-primary" onClick={handleShowModal(row.url)}>
-          Preview
-        </Button>
-      </ButtonToolbar>
-    );
+  const onPreview = photoUrl => {
+    setUrl(photoUrl);
+    setShow(true);
   };
 
   if (loading) {
@@ -105,7 +76,14 @@ const PhotoList = ({
         <Row className="my-3">
           {photoList.map(item => (
             <Col sm={3} key={item.id}>
-              <PhotoItem data={item} />
+              <PhotoItem
+                data={item}
+                likeStatus={
+                  favoritePhotos[item.id] ? favoritePhotos[item.id] : false
+                }
+                onChangeLikeStatus={onChangeLikeStatus}
+                onPreview={onPreview}
+              />
             </Col>
           ))}
         </Row>

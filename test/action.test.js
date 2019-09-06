@@ -9,13 +9,6 @@ describe('ACTIONS', () => {
     expect(actions.triggerFavorite(1)).toEqual(expectedAction);
   });
 
-  it('should create loadAllPhotos action by loadAllPhotos', () => {
-    const expectedAction = {
-      type: actions.LOAD_ALL_PHOTOS
-    }
-    expect(actions.loadAllPhotos()).toEqual(expectedAction);
-  });
-
   it('should create loadPagePhotos action by loadPagePhotos', () => {
     const expectedAction = {
       type: actions.LOAD_PAGE_PHOTOS,

@@ -1,8 +1,6 @@
 import reducer from '../src/reducers/index';
 import {
-  LOAD_ALL_PHOTOS,
   LOAD_PAGE_PHOTOS,
-  LOAD_ALL_PHOTOS_SUCCESS,
   LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PHOTOS_FAIL,
   TRIGGER_FAVORITE
@@ -15,24 +13,6 @@ describe('REDUCER', () => {
       favoritePhotos: {}
     };
     expect(reducer(initialState, {})).toEqual(initialState);
-  });
-
-  it('should be in loading by "LOAD_ALL_PHOTOS" action', () => {
-    const initialState = {
-      loading: false,
-      isError: false,
-      photoList: [],
-      favoritePhotos: {}
-    };
-    const action = {
-      type: LOAD_ALL_PHOTOS
-    };
-    expect(reducer(initialState, action)).toEqual({
-      loading: true,
-      isError: false,
-      photoList: [],
-      favoritePhotos: {}
-    });
   });
 
   it('should be in loading by "LOAD_PAGE_PHOTOS" action', () => {
@@ -50,27 +30,6 @@ describe('REDUCER', () => {
       isError: false,
       photoList: [],
       favoritePhotos: {}
-    });
-  });
-
-  it('should update state\'s photoList and set isError to true by "LOAD_ALL_PHOTOS_SUCCESS" action', () => {
-    const initialState = {
-      loading: true,
-      isError: true,
-      photoList: [],
-      favoritePhotos: {},
-      totalPhotos: 0
-    };
-    const action = {
-      type: LOAD_ALL_PHOTOS_SUCCESS,
-      totalPhotos: 6
-    };
-    expect(reducer(initialState, action)).toEqual({
-      loading: false,
-      isError: false,
-      photoList: [],
-      favoritePhotos: {},
-      totalPhotos: 6
     });
   });
 

@@ -2,16 +2,16 @@ import {
   // put,
   takeLatest
 } from 'redux-saga/effects';
-import { fetchAllPhoto, loadAllPhotos } from '../src/sagas/index';
+import { fetchPagePhoto, loadPagePhotos } from '../src/sagas/index';
 import {
   // LOAD_PHOTOS_SUCCESS,
-  LOAD_ALL_PHOTOS } from '../src/actions';
+  LOAD_PAGE_PHOTOS } from '../src/actions';
 
 describe('SAGAS', () => {
-  it('should dispatch action "LOAD_ALL_PHOTOS" ', () => {
-    const generator = loadAllPhotos();
+  it('should dispatch action "LOAD_PAGE_PHOTOS" ', () => {
+    const generator = loadPagePhotos();
     expect(generator.next().value)
-      .toEqual(takeLatest(LOAD_ALL_PHOTOS, fetchAllPhoto));
+      .toEqual(takeLatest(LOAD_PAGE_PHOTOS, fetchPagePhoto));
     expect(generator.next().done).toBeTruthy();
   });
 
@@ -26,7 +26,7 @@ describe('SAGAS', () => {
   //       name: 'photo2'
   //     }
   //   ];
-  //   const generator = fetchPhotoList();
+  //   const generator = loadPagePhotos();
   //   generator.next();
 
   //   expect(generator.next(mockResponse).value)

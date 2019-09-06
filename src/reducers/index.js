@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {
   LOAD_ALL_PHOTOS,
-  // LOAD_PAGE_PHOTOS,
+  LOAD_PAGE_PHOTOS,
   LOAD_ALL_PHOTOS_SUCCESS,
   LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PHOTOS_FAIL,
@@ -24,11 +24,11 @@ export default function photoApp(state = initialState, action) {
         ...state,
         loading: true
       };
-    // case LOAD_PAGE_PHOTOS:
-    //     return {
-    //       ...state,
-    //       loading: true
-    //     };
+    case LOAD_PAGE_PHOTOS:
+      return {
+        ...state,
+        loading: true
+      };
     case LOAD_ALL_PHOTOS_SUCCESS:
       return {
         ...state,

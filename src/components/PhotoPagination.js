@@ -76,7 +76,7 @@ const PhotoPagination = ({ initialPage, pageSize, items, onChangePage }) => {
     setPager(newPager);
 
     // call change page function in parent component
-    onChangePage(pager);
+    onChangePage(newPager);
   };
 
   if (!pager.pages || pager.pages.length <= 1) {
@@ -126,13 +126,6 @@ const propTypes = {
 
 const defaultProps = {
   initialPage: 1
-};
-
-PhotoPagination.propTypes = {
-  items: PropTypes.array.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  initialPage: PropTypes.number,
-  pageSize: PropTypes.number.isRequired
 };
 
 PhotoPagination.propTypes = propTypes;

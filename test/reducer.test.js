@@ -1,7 +1,9 @@
 import reducer from '../src/reducers/index';
-import { 
-  LOAD_PHOTOS_LOADING,
-  LOAD_PHOTOS_SUCCESS,
+import {
+  LOAD_ALL_PHOTOS,
+  LOAD_PAGE_PHOTOS,
+  LOAD_ALL_PHOTOS_SUCCESS,
+  LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PHOTOS_FAIL,
   TRIGGER_FAVORITE
 } from '../src/actions';
@@ -15,17 +17,17 @@ describe('REDUCER', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });
 
-  it('should change state\'s loading to true by "LOAD_PHOTOS_LOADING" action', () => {
+  it('should be in loading by "LOAD_ALL_PHOTOS" action', () => {
     const initialState = {
       loading: false,
       isError: false,
       photoList: [],
       favoritePhotos: {}
     };
-    const loadingPhotosAction = {
-      type: LOAD_PHOTOS_LOADING
+    const action = {
+      type: LOAD_ALL_PHOTOS
     };
-    expect(reducer(initialState, loadingPhotosAction)).toEqual({
+    expect(reducer(initialState, action)).toEqual({
       loading: true,
       isError: false,
       photoList: [],
@@ -33,28 +35,69 @@ describe('REDUCER', () => {
     });
   });
 
-  it('should update state\'s photoList and set isError to true by "LOAD_PHOTOS_SUCCESS" action', () => {
+  it('should be in loading by "LOAD_PAGE_PHOTOS" action', () => {
+    const initialState = {
+      loading: false,
+      isError: false,
+      photoList: [],
+      favoritePhotos: {}
+    };
+    const action = {
+      type: LOAD_PAGE_PHOTOS
+    };
+    expect(reducer(initialState, action)).toEqual({
+      loading: true,
+      isError: false,
+      photoList: [],
+      favoritePhotos: {}
+    });
+  });
+
+  it('should update state\'s photoList and set isError to true by "LOAD_ALL_PHOTOS_SUCCESS" action', () => {
     const initialState = {
       loading: true,
       isError: true,
       photoList: [],
-      favoritePhotos: {}
+      favoritePhotos: {},
+      totalPhotos: 0
     };
-    const data = [
-      {
-        id: 1,
-        name: 'image1'
-      }
-    ];
-    const loadPhotoSuccessAction = {
-      type: LOAD_PHOTOS_SUCCESS,
-      photoList: data
+    const action = {
+      type: LOAD_ALL_PHOTOS_SUCCESS,
+      totalPhotos: 6
     };
-    expect(reducer(initialState, loadPhotoSuccessAction)).toEqual({
+    expect(reducer(initialState, action)).toEqual({
       loading: false,
       isError: false,
-      photoList: data,
-      favoritePhotos: {}
+      photoList: [],
+      favoritePhotos: {},
+      totalPhotos: 6
+    });
+  });
+
+  it('should update state\'s photoList and set isError to true by "LOAD_PAGE_PHOTOS_SUCCESS" action', () => {
+    const initialState = {
+      loading: true,
+      isError: true,
+      photoList: [],
+      favoritePhotos: {},
+      totalPhotos: 0
+    };
+    const photoList = [
+      {
+        id: 1,
+        name: 'photo1'
+      }
+    ];
+    const action = {
+      type: LOAD_PAGE_PHOTOS_SUCCESS,
+      photoList
+    };
+    expect(reducer(initialState, action)).toEqual({
+      loading: false,
+      isError: false,
+      photoList: photoList,
+      favoritePhotos: {},
+      totalPhotos: 0
     });
   });
 

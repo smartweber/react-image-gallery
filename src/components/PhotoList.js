@@ -45,14 +45,6 @@ const PhotoList = ({
     setShow(true);
   };
 
-  if (loading) {
-    return (
-      <SpinnerWrapper>
-        <Spinner animation="border" variant="primary" size="xl" />
-      </SpinnerWrapper>
-    );
-  }
-
   if (isError) {
     return <Alert variant="danger">{errorMessage}</Alert>;
   }
@@ -61,27 +53,35 @@ const PhotoList = ({
     <Fragment>
       <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
       <Container>
-        <Row>
-          <Col>
-            <h3>
-              Number of favorite photos: {Object.keys(favoritePhotos).length}
-            </h3>
-          </Col>
-        </Row>
+        {!loading && (
+          <Row>
+            <Col>
+              <h3>
+                Number of favorite photos: {Object.keys(favoritePhotos).length}
+              </h3>
+            </Col>
+          </Row>
+        )}
 
         <Row className="my-3">
-          {photoList.map(item => (
-            <Col sm={3} key={item.id}>
-              <PhotoItem
-                data={item}
-                likeStatus={
-                  favoritePhotos[item.id] ? favoritePhotos[item.id] : false
-                }
-                onChangeLikeStatus={onChangeLikeStatus}
-                onPreview={onPreview}
-              />
-            </Col>
-          ))}
+          {loading ? (
+            <SpinnerWrapper>
+              <Spinner animation="border" variant="primary" size="xl" />
+            </SpinnerWrapper>
+          ) : (
+            photoList.map(item => (
+              <Col sm={3} key={item.id}>
+                <PhotoItem
+                  data={item}
+                  likeStatus={
+                    favoritePhotos[item.id] ? favoritePhotos[item.id] : false
+                  }
+                  onChangeLikeStatus={onChangeLikeStatus}
+                  onPreview={onPreview}
+                />
+              </Col>
+            ))
+          )}
         </Row>
 
         <Row>

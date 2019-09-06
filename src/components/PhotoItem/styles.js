@@ -7,9 +7,16 @@ export const Image = styled.img`
 
 export const PhotoItemWrapper = styled.div`
   position: relative;
+
+  &:hover {
+    .content-wrapper {
+      display: block;
+    }
+  }
 `;
 
 export const ContentWrapper = styled.div`
+  display: none;
   position: absolute;
   width: 100%;
   height: 100%;

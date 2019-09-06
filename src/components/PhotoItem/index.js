@@ -11,12 +11,6 @@ import {
 } from './styles';
 
 const PhotoItem = ({ data, likeStatus, onChangeLikeStatus, onPreview }) => {
-  const [hover, setHover] = useState(false);
-
-  const toggleHover = () => {
-    setHover(!hover);
-  };
-
   const likeButtonContent = likeStatus ? (
     <div>
       <span className="glyphicon glyphicon-thumbs-up"></span> Unlike
@@ -28,33 +22,32 @@ const PhotoItem = ({ data, likeStatus, onChangeLikeStatus, onPreview }) => {
   );
 
   return (
-    <PhotoItemWrapper onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+    <PhotoItemWrapper>
       <Image src={data.thumbnailUrl} alt="Thumbnail" />
-      {hover && (
-        <ContentWrapper>
-          <BgWrapper />
-          <ActionWrapper>
-            <Button
-              className="mr-3"
-              outline
-              color="primary"
-              onClick={() => onPreview(data.url)}
-            >
-              Preview
-            </Button>
 
-            <Button
-              outline
-              color={likeStatus ? 'warning' : 'success'}
-              onClick={() => onChangeLikeStatus(data.id)}
-            >
-              {likeButtonContent}
-            </Button>
-          </ActionWrapper>
+      <ContentWrapper className="content-wrapper">
+        <BgWrapper />
+        <ActionWrapper>
+          <Button
+            className="mr-3"
+            outline
+            color="primary"
+            onClick={() => onPreview(data.url)}
+          >
+            Preview
+          </Button>
 
-          <TitleWrapper>{data.title}</TitleWrapper>
-        </ContentWrapper>
-      )}
+          <Button
+            outline
+            color={likeStatus ? 'warning' : 'success'}
+            onClick={() => onChangeLikeStatus(data.id)}
+          >
+            {likeButtonContent}
+          </Button>
+        </ActionWrapper>
+
+        <TitleWrapper>{data.title}</TitleWrapper>
+      </ContentWrapper>
     </PhotoItemWrapper>
   );
 };

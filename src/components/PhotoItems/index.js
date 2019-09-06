@@ -18,7 +18,7 @@ const PhotoItems = ({
   dispatch
 }) => {
   const [show, setShow] = useState(false);
-  const [url, setUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
   const [items, setItems] = useState([]);
   const pageSize = 16;
 
@@ -41,8 +41,8 @@ const PhotoItems = ({
     dispatch(triggerFavorite(photoId));
   };
 
-  const onPreview = photoUrl => {
-    setUrl(photoUrl);
+  const onPreview = previewUrl => {
+    setPreviewUrl(previewUrl);
     setShow(true);
   };
 
@@ -52,7 +52,11 @@ const PhotoItems = ({
 
   return (
     <Fragment>
-      <PreviewPhotoModal show={show} url={url} handleClose={handleCloseModal} />
+      <PreviewPhotoModal
+        show={show}
+        url={previewUrl}
+        handleClose={handleCloseModal}
+      />
       <Container>
         {!loading && (
           <Row>

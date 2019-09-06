@@ -17,7 +17,7 @@ export function* fetchPagePhoto(action) {
   } catch (error) {
     yield put({
       type: LOAD_PHOTOS_FAIL,
-      errorMessage: error.message || 'Api error'
+      errorMessage: error.message || 'There was an unknown error.'
     });
   }
 }

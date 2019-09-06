@@ -16,6 +16,6 @@ export const getPhotos = async (page = 1, limit = 16) => {
       totalCount
     };
   } else {
-    throw new Error('Unknow status');
+    throw new Error('Invalid response from server.');
   }
 };

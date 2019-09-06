@@ -12,7 +12,7 @@ const PreviewPhotoModal = ({ show, url, handleClose }) => {
         <Image src={url} width="100%" rounded />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="outline-dark" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>

@@ -19,11 +19,11 @@ const PhotoItem = ({ data, likeStatus, onChangeLikeStatus, onPreview }) => {
 
   const likeButtonContent = likeStatus ? (
     <div>
-      <span class="glyphicon glyphicon-thumbs-up"></span> Unlike
+      <span className="glyphicon glyphicon-thumbs-up"></span> Unlike
     </div>
   ) : (
     <div>
-      <span class="glyphicon glyphicon-thumbs-up"></span> Like
+      <span className="glyphicon glyphicon-thumbs-up"></span> Like
     </div>
   );
 

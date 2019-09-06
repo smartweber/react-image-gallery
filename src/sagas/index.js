@@ -1,4 +1,4 @@
-import { all, put, call, takeEvery } from 'redux-saga/effects';
+import { all, put, call, takeLatest } from 'redux-saga/effects';
 import {
   LOAD_ALL_PHOTOS,
   LOAD_PAGE_PHOTOS,
@@ -47,11 +47,11 @@ export function* fetchPagePhoto(action) {
 }
 
 export function* loadAllPhotos() {
-  yield takeEvery(LOAD_ALL_PHOTOS, fetchAllPhoto);
+  yield takeLatest(LOAD_ALL_PHOTOS, fetchAllPhoto);
 }
 
 export function* loadPagePhotos() {
-  yield takeEvery(LOAD_PAGE_PHOTOS, fetchPagePhoto);
+  yield takeLatest(LOAD_PAGE_PHOTOS, fetchPagePhoto);
 }
 
 export default function* rootSaga() {

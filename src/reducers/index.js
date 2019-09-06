@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   LOAD_ALL_PHOTOS,
+  // LOAD_PAGE_PHOTOS,
   LOAD_ALL_PHOTOS_SUCCESS,
   LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PHOTOS_FAIL,
@@ -8,7 +9,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  loading: false,
+  loading: true,
   isError: false,
   totalPhotos: 0,
   photoList: [],
@@ -21,9 +22,13 @@ export default function photoApp(state = initialState, action) {
     case LOAD_ALL_PHOTOS:
       return {
         ...state,
-        loading: true,
-        isError: false
+        loading: true
       };
+    // case LOAD_PAGE_PHOTOS:
+    //     return {
+    //       ...state,
+    //       loading: true
+    //     };
     case LOAD_ALL_PHOTOS_SUCCESS:
       return {
         ...state,

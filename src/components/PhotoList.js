@@ -23,21 +23,17 @@ const PhotoList = ({
 
   useEffect(() => {
     dispatch(loadPagePhotos(1, pageSize));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    buildPageItems();
+    const pageItems = [...Array(totalPhotos).keys()].map(i => i + 1);
+    setItems(pageItems);
   }, [totalPhotos]);
 
   const handleCloseModal = () => setShow(false);
 
   const onChangePage = pager => {
     dispatch(loadPagePhotos(pager.currentPage, pager.pageSize));
-  };
-
-  const buildPageItems = () => {
-    const pageItems = [...Array(totalPhotos).keys()].map(i => i + 1);
-    setItems(pageItems);
   };
 
   const onChangeLikeStatus = photoId => {

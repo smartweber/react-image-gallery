@@ -1,21 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
+import store from './store';
 
 import App from './App';
-import { loadAllPhotos } from './actions';
-import photoApp from './reducers';
-import rootSaga from './sagas';
-
-const sagaMiddleware = createSagaMiddleware();
-
-const store = createStore(photoApp, applyMiddleware(sagaMiddleware));
-
-sagaMiddleware.run(rootSaga);
-
-store.dispatch(loadAllPhotos());
 
 render(
   <Provider store={store}>

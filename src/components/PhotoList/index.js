@@ -1,16 +1,16 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Alert, Container, Row, Col } from 'react-bootstrap';
-import { triggerFavorite, loadPagePhotos } from '../actions';
-import PreviewPhotoModal from './PreviewPhotoModal';
+import { triggerFavorite, loadPagePhotos } from '../../actions';
+import PreviewPhotoModal from '../PreviewPhotoModal';
+import PhotoPagination from '../PhotoPagination';
+import PhotoItem from '../PhotoItem';
 import { SpinnerWrapper } from './styles';
-import PhotoPagination from './PhotoPagination';
-import PhotoItem from './PhotoItem';
 
 const PhotoList = ({
   loading,
   isError,
-  totalPhotos,
+  totalCount,
   errorMessage,
   photoList,
   favoritePhotos,
@@ -26,9 +26,9 @@ const PhotoList = ({
   }, [dispatch]);
 
   useEffect(() => {
-    const pageItems = [...Array(totalPhotos).keys()].map(i => i + 1);
+    const pageItems = [...Array(totalCount).keys()].map(i => i + 1);
     setItems(pageItems);
-  }, [totalPhotos]);
+  }, [totalCount]);
 
   const handleCloseModal = () => setShow(false);
 
@@ -103,7 +103,7 @@ PhotoList.propTypes = {
   loading: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
-  totalPhotos: PropTypes.number.isRequired,
+  totalCount: PropTypes.number.isRequired,
   photoList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

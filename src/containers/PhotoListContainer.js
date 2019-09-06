@@ -5,7 +5,7 @@ const mapStateToProps = state => {
   return {
     loading: state.loading,
     isError: state.isError,
-    totalPhotos: state.totalPhotos,
+    totalCount: state.totalCount,
     errorMessage: state.errorMessage,
     photoList: state.photoList,
     favoritePhotos: state.favoritePhotos

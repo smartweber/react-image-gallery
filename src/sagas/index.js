@@ -1,53 +1,32 @@
 import { all, put, call, takeLatest } from 'redux-saga/effects';
 import {
-  LOAD_ALL_PHOTOS,
   LOAD_PAGE_PHOTOS,
-  LOAD_ALL_PHOTOS_SUCCESS,
   LOAD_PAGE_PHOTOS_SUCCESS,
   LOAD_PHOTOS_FAIL
 } from '../actions';
-
-export function* fetchAllPhoto() {
-  const API_URL = 'https://jsonplaceholder.typicode.com/photos';
-
-  try {
-    const response = yield call(fetch, API_URL);
-    if (response.status >= 200 && response.status < 300) {
-      const photoList = yield response.json();
-
-      yield put({
-        type: LOAD_ALL_PHOTOS_SUCCESS,
-        totalPhotos: photoList.length
-      });
-    } else {
-      throw response;
-    }
-  } catch (e) {
-    console.log('ERROR', e);
-    yield put({ type: LOAD_PHOTOS_FAIL, errorMessage: 'Api error' });
-  }
-}
+import * as API from '../services';
 
 export function* fetchPagePhoto(action) {
   const API_URL = `https://jsonplaceholder.typicode.com/photos?_page=${action.page}&_limit=${action.limit}`;
 
   try {
-    const response = yield call(fetch, API_URL);
+    const response = yield call(API.get, API_URL);
     if (response.status >= 200 && response.status < 300) {
-      const photoList = yield response.json();
+      const photoList = response.data;
+      const totalCount = response.headers['x-total-count']
+        ? parseInt(response.headers['x-total-count'])
+        : 0;
 
-      yield put({ type: LOAD_PAGE_PHOTOS_SUCCESS, photoList });
+      yield put({ type: LOAD_PAGE_PHOTOS_SUCCESS, photoList, totalCount });
     } else {
-      throw response;
+      throw new Error('Unknow status');
     }
-  } catch (e) {
-    console.log('ERROR', e);
-    yield put({ type: LOAD_PHOTOS_FAIL, errorMessage: 'Api error' });
+  } catch (error) {
+    yield put({
+      type: LOAD_PHOTOS_FAIL,
+      errorMessage: error.message || 'Api error'
+    });
   }
-}
-
-export function* loadAllPhotos() {
-  yield takeLatest(LOAD_ALL_PHOTOS, fetchAllPhoto);
 }
 
 export function* loadPagePhotos() {
@@ -55,5 +34,5 @@ export function* loadPagePhotos() {
 }
 
 export default function* rootSaga() {
-  yield all([loadAllPhotos(), loadPagePhotos()]);
+  yield all([loadPagePhotos()]);
 }

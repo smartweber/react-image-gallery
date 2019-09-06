@@ -5,13 +5,6 @@ export const Image = styled.img`
   height: auto;
 `;
 
-export const SpinnerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
 export const PhotoItemWrapper = styled.div`
   position: relative;
 `;
